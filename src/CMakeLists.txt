@@ -444,9 +444,14 @@ add_executable(gperfappgen ${gperf_SRC})
 #
 # Run gperfappgen, pipe to gperf input to gperfapphash.gph
 #
+IF(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    SET(gperfappgen_exe gperfappgen.exe)
+ELSE()
+    SET(gperfappgen_exe gperfappgen)
+ENDIF()
 add_custom_command(
   OUTPUT gperfapphash.gph
-  COMMAND gperfappgen > ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph
+  COMMAND ${gperfappgen_exe} > ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph
   DEPENDS ${gperfappgen})
 
 #
