@@ -151,6 +151,8 @@
 #include "digital/digisource.h"
 #include "digital/buffer.h"
 
+#ifdef WITH_ADMS
+
 #include "verilog/EKV26MOS.core.h"
 #include "verilog/log_amp.core.h"
 #include "verilog/MESFET.core.h"
@@ -190,6 +192,8 @@
 #include "verilog/comp_4bit.core.h"
 #include "verilog/hpribin4bit.core.h"
 #include "verilog/vcresistor.core.h"
+
+#endif
 
 #include "ecvs.h"
 
