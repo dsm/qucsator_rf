@@ -549,11 +549,11 @@ install(TARGETS qucsator_rf DESTINATION bin)
 
 # set Windows runtime location for libqucsator See:
 # http://www.cmake.org/pipermail/cmake/2010-June/037461.html
-install(
-  TARGETS libqucsator
-  RUNTIME DESTINATION bin COMPONENT runtime
-  ARCHIVE DESTINATION lib COMPONENT devel
-  LIBRARY DESTINATION lib COMPONENT library)
+#install(
+#  TARGETS libqucsator
+#  RUNTIME DESTINATION bin COMPONENT runtime
+#  ARCHIVE DESTINATION lib COMPONENT devel
+#  LIBRARY DESTINATION lib COMPONENT library)
 
 if(WITH_ADMS)
 install(FILES ${PUBLIC_HEADERS} DESTINATION include/qucs-core)
