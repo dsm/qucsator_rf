@@ -7,4 +7,6 @@ set(HEADERS complex.h matrix.h precision.h real.h)
 
 add_library(coreMath OBJECT ${MATH_SRC})
 
+if(WITH_ADMS)
 install(FILES ${HEADERS} DESTINATION include/qucs-core)
+endif()

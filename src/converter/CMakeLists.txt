@@ -45,19 +45,19 @@ endforeach()
 #
 add_custom_command(
   OUTPUT qucsdefs.h
-  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/../qucsator -l >
+  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/../qucsator_rf -l >
           ${CMAKE_CURRENT_BINARY_DIR}/qucsdefs.h
-  DEPENDS qucsator)
+  DEPENDS qucsator_rf)
 
 add_custom_target(defs DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/qucsdefs.h)
 
-add_executable(qucsconv ${QUCSCONV_SRC} ${conv_generated})
+add_executable(qucsconv_rf ${QUCSCONV_SRC} ${conv_generated})
 
-add_dependencies(qucsconv defs)
+add_dependencies(qucsconv_rf defs)
 
-target_link_libraries(qucsconv libqucsator ${CMAKE_DL_LIBS})
+target_link_libraries(qucsconv_rf libqucsator ${CMAKE_DL_LIBS})
 
 #
 # Handle installation
 #
-install(TARGETS qucsconv DESTINATION bin)
+install(TARGETS qucsconv_rf DESTINATION bin)

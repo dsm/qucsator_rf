@@ -19,4 +19,6 @@ add_library(coreDevices OBJECT ${DEVICES_SRC})
 
 set(HEADERS device.h)
 
+if (WITH_ADMS)
 install(FILES ${HEADERS} DESTINATION include/qucs-core)
+endif()

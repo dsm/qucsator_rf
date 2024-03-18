@@ -30,7 +30,7 @@
 # ~~~
 
 project(qucs-core CXX)
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.0)
 
 # ignore the project() managed VERSION (new in CMake 3.0)
 if(POLICY CMP0048)

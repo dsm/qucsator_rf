@@ -1,4 +1,4 @@
-project(qucsator CXX C)
+project(qucsator_rf CXX C)
 cmake_policy(VERSION 2.6)
 
 #
@@ -444,7 +444,7 @@ add_executable(gperfappgen ${gperf_SRC})
 #
 # Run gperfappgen, pipe to gperf input to gperfapphash.gph
 #
-IF(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+IF(WIN32)
     SET(gperfappgen_exe gperfappgen.exe)
 ELSE() # Unix
     SET(gperfappgen_exe gperfappgen)
@@ -493,7 +493,7 @@ add_subdirectory(converter)
 #
 # Create qucsator
 #
-add_executable(qucsator ucs.cpp ${PUBLIC_HEADERS} ${TEMPLATES})
+add_executable(qucsator_rf ucs.cpp ${PUBLIC_HEADERS} ${TEMPLATES})
 
 #
 # Build libqucs as SHARED, dynamic library
@@ -540,12 +540,12 @@ add_dependencies(libqucsator equation)
 #
 # Link qucsator and libqucsator
 #
-target_link_libraries(qucsator libqucsator ${CMAKE_DL_LIBS})
+target_link_libraries(qucsator_rf libqucsator ${CMAKE_DL_LIBS})
 
 #
 # Handle install
 #
-install(TARGETS qucsator DESTINATION bin)
+install(TARGETS qucsator_rf DESTINATION bin)
 
 # set Windows runtime location for libqucsator See:
 # http://www.cmake.org/pipermail/cmake/2010-June/037461.html
@@ -555,4 +555,6 @@ install(
   ARCHIVE DESTINATION lib COMPONENT devel
   LIBRARY DESTINATION lib COMPONENT library)
 
+if(WITH_ADMS)
 install(FILES ${PUBLIC_HEADERS} DESTINATION include/qucs-core)
+endif()
