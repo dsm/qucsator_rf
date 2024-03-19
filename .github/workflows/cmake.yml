@@ -3,10 +3,8 @@ name: CMake
 on:
   push:
     branches: [ "develop", "release/*" ]
-    paths: [ "**.cpp", "**.h", "**/CMakeLists.txt" ]
   pull_request:
     branches: [ "develop", "release/*" ]
-    paths: [ "**.cpp", "**.h", "**/CMakeLists.txt" ]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
