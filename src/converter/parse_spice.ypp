@@ -185,11 +185,9 @@ Input:
     spice_title = $1;
   }
   | InputList {
-    fprintf (stderr, "spice notice, no .END directive found, continuing\n");
   }
   | TitleLine InputList {
     spice_title = $1;
-    fprintf (stderr, "spice notice, no .END directive found, continuing\n");
   }
 ;
 
