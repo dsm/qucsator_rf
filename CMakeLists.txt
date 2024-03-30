@@ -211,19 +211,19 @@ ENDIF()
 #
 # Set up RPATH for the project
 #
-option(ENABLE_RPATH "Enable rpath support on Linux and Mac" ON)
-if(NOT CMAKE_INSTALL_RPATH)
-  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-endif()
-if(APPLE AND NOT CMAKE_INSTALL_NAME_DIR)
-  set(CMAKE_INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
-endif()
-if(UNIX AND ENABLE_RPATH)
-  set(CMAKE_SKIP_BUILD_RPATH FALSE)
-  set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-  set(CMAKE_MACOSX_RPATH TRUE)
-endif()
+#option(ENABLE_RPATH "Enable rpath support on Linux and Mac" OFF)
+#if(NOT CMAKE_INSTALL_RPATH)
+#  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+#endif()
+#if(APPLE AND NOT CMAKE_INSTALL_NAME_DIR)
+#  set(CMAKE_INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+#endif()
+#if(UNIX AND ENABLE_RPATH)
+#  set(CMAKE_SKIP_BUILD_RPATH FALSE)
+#  set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+#  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+#  set(CMAKE_MACOSX_RPATH TRUE)
+#endif()
 
 # CMake adds --enable-all-exports on Cygwin (since Cygwin is supposed to be
 # UNIX-like), but we need to add it explicitly for a native windows build with
