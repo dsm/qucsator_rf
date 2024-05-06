@@ -28,9 +28,8 @@
 #
 
 # ~~~
-
+cmake_minimum_required(VERSION 3.10)
 project(qucs-core CXX)
-cmake_minimum_required(VERSION 3.0)
 
 # ignore the project() managed VERSION (new in CMake 3.0)
 if(POLICY CMP0048)
@@ -155,18 +154,27 @@ endif()
 if(WIN32)
   find_package(BISON 2.4 REQUIRED)
 else() # Linux, OSX
-  # use -DBISON_DIR=/path/ to provide the path to bison
-  find_program(
-    BISON_EXECUTABLE bison
-    PATHS /usr/local/bin/ /opt/local/bin/ /usr/bin ${BISON_DIR}
-    DOC "bison path"
-    NO_DEFAULT_PATH)
-  if(BISON_EXECUTABLE)
-    message(STATUS "Found bison: " ${BISON_EXECUTABLE})
-  else()
-    message(
-      FATAL_ERROR "Unable to find bison. Try to provide -DBISON_DIR=[path]")
+  if(APPLE)
+  find_package(
+    BISON 3.0.0 REQUIRED
+    # homebrew_bison
+    PATH "/opt/homebrew/opt/bison/bin/"
+    )
+  else(APPLE)
+     # use -DBISON_DIR=/path/ to provide the path to bison
+    find_program(
+      BISON_EXECUTABLE bison
+      PATHS /usr/local/bin/ /opt/local/bin/ /usr/bin ${BISON_DIR}
+      DOC "bison path"
+      NO_DEFAULT_PATH)
+    if(BISON_EXECUTABLE)
+      message(STATUS "Found bison: " ${BISON_EXECUTABLE})
+    else()
+      message(
+        FATAL_ERROR "Unable to find bison. Try to provide -DBISON_DIR=[path]")
   endif()
+  endif(APPLE)
+
 endif()
 
 #
@@ -247,18 +255,29 @@ endif()
 # warnings * problem with non-starndart _stricmp using -stdr=c++0x set g++ into
 # strict ANSY, relax that with -U__STRICT_ANSI__. Could use -std=gnu++0x
 # ~~~
-if(WIN32)
-  set(CMAKE_CXX_FLAGS "-Wall -std=c++0x -fpermissive -U__STRICT_ANSI__")
-else()
-  set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
-endif()
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
+
+if (WIN32)
+    if(MSVC)
+      add_compile_options(/Zc:__cplusplus /permissive- /MP /Zc:preprocessor)
+    else(MSVC)
+      set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11 -fpermissive -U__STRICT_ANSI__")
+    endif(MSVC)
+else(WIN32)
+    # additional warnings
+    add_compile_options(-Wall -Wextra)
+endif(WIN32)
+
+
 
 # indiscriminate copy/paste from:
 # http://stackoverflow.com/questions/10984442/how-to-detect-c11-support-of-a-
 # compiler-with-cmake/20165220#20165220
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE "-O4 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
 
 # Compiler-specific C++11 activation.

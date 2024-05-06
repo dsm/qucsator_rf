@@ -1,5 +1,5 @@
+cmake_minimum_required(VERSION 3.10)
 project(qucsator_rf CXX C)
-cmake_policy(VERSION 2.6)
 
 #
 # Checks for libraries.
@@ -410,7 +410,6 @@ set(PUBLIC_HEADERS
     operatingpoint.h)
 
 include_directories(
-  ${qucs-core_SOURCE_DIR} # generated config.h
   ${qucs-core_SOURCE_DIR}/src/math # precision.h
   ${qucs-core_SOURCE_DIR}/src/ # compat.h
   ${qucs-core_SOURCE_DIR}/src/components # microstrip/substrate.h
