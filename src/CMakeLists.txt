@@ -438,8 +438,11 @@ add_custom_command(
 #
 set(gperf_SRC gperfappgen.cpp gperfappgen.h)
 
-add_executable(gperfappgen ${gperf_SRC})
-
+IF(WIN32)
+    add_executable(gperfappgen.exe ${gperf_SRC})
+ELSE() # Unix
+    add_executable(gperfappgen ${gperf_SRC})
+ENDIF()
 #
 # Run gperfappgen, pipe to gperf input to gperfapphash.gph
 #
