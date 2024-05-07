@@ -1,5 +1,5 @@
+cmake_minimum_required(VERSION 3.10)
 project(qucsator_rf CXX C)
-cmake_policy(VERSION 2.6)
 
 #
 # Checks for libraries.
@@ -410,7 +410,6 @@ set(PUBLIC_HEADERS
     operatingpoint.h)
 
 include_directories(
-  ${qucs-core_SOURCE_DIR} # generated config.h
   ${qucs-core_SOURCE_DIR}/src/math # precision.h
   ${qucs-core_SOURCE_DIR}/src/ # compat.h
   ${qucs-core_SOURCE_DIR}/src/components # microstrip/substrate.h
@@ -439,8 +438,11 @@ add_custom_command(
 #
 set(gperf_SRC gperfappgen.cpp gperfappgen.h)
 
-add_executable(gperfappgen ${gperf_SRC})
-
+IF(WIN32)
+    add_executable(gperfappgen.exe ${gperf_SRC})
+ELSE() # Unix
+    add_executable(gperfappgen ${gperf_SRC})
+ENDIF()
 #
 # Run gperfappgen, pipe to gperf input to gperfapphash.gph
 #

@@ -1,5 +1,5 @@
 include_directories(
-  ${qucs-core_SOURCE_DIR} ${qucs-core_CURRENT_SOURCE_DIR}
+  ${qucs-core_CURRENT_SOURCE_DIR}
   ${qucs-core_SOURCE_DIR}/src/math ${qucs-core_SOURCE_DIR}/src/components
 )# component.h
 

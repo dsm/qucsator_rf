@@ -1,4 +1,4 @@
-include_directories(${qucs-core_SOURCE_DIR} ${qucs-core_CURRENT_SOURCE_DIR}
+include_directories(${qucs-core_CURRENT_SOURCE_DIR}
                     ${qucs-core_SOURCE_DIR}/src/math)
 
 set(COMPONENTS_SRC
