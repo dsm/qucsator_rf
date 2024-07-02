@@ -1,4 +1,4 @@
-name: CMake
+name: Linux
 
 on:
   push:
@@ -26,19 +26,26 @@ jobs:
     - name: InstallDependencies
       run: |
           sudo apt-get update
-          sudo apt-get install -y dos2unix gperf flex bison
+          sudo apt-get install -y dos2unix gperf flex bison 
+          sudo apt-get install -y python3 python3-matplotlib python3-numpy 
+          sudo pip3 install looseversion
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/qucsator_dist
+
 
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build  --config ${{env.BUILD_TYPE}}
+    - name: Install
+      run: make -C ${{github.workspace}}/build install 
 
-    #- name: Test
-    #  working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      # run: ctest -C ${{env.BUILD_TYPE}}
+    - name: Test
+      working-directory: ${{github.workspace}}/
+      run: |
+        git clone https://github.com/ra3xdh/qucs-test
+        cd qucs-test
+        python ${{github.workspace}}/qucs-test/run.py --qucsator --prefix=${{github.workspace}}/qucsator_dist/bin --exclude ${{github.workspace}}/qucs-test/skip.txt 
+
       
