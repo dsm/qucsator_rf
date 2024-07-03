@@ -155,11 +155,20 @@ if(WIN32)
   find_package(BISON 2.4 REQUIRED)
 else() # Linux, OSX
   if(APPLE)
-  find_package(
-    BISON 3.0.0 REQUIRED
-    # homebrew_bison
-    PATH "/opt/homebrew/opt/bison/bin/"
+    find_program(BISON_EXECUTABLE bison
+        PATHS 
+            "/opt/homebrew/opt/bison/bin/"
+            "/usr/local/opt/bison/bin/"
+        NO_DEFAULT_PATH
     )
+    
+    if(NOT BISON_EXECUTABLE)
+        message(FATAL_ERROR "Bison 3.0.0 executable not found")
+    else()
+        message(STATUS "Bison found: ${BISON_EXECUTABLE}")
+        set(BISON_EXECUTABLE ${BISON_EXECUTABLE} CACHE FILEPATH "Path to Bison executable")
+    endif()
+    find_package(BISON 3.0.0 REQUIRED)
   else(APPLE)
      # use -DBISON_DIR=/path/ to provide the path to bison
     find_program(
