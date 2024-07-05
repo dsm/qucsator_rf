@@ -160,21 +160,6 @@ endforeach()
 # AC_CHECK_CXX_COMPLEX_POLAR_COMPLEX !failed
 
 #
-# Namespace
-#
-# Check whether the compiler implements namespaces
-#
-try_compile(
-  HAVE_NAMESPACES ${CMAKE_BINARY_DIR}
-  ${qucs-core_SOURCE_DIR}/cmake/namespaces.cpp OUTPUT_VARIABLE TRY_OUT)
-if(NOT HAVE_NAMESPACES)
-  message(
-    SEND_ERROR
-      "${PROJECT_NAME} requires an c++ compiler with namespace HAVE_NAMESPACES failed"
-  ) # ${TRY_OUT}")
-endif()
-
-#
 # Check whether the compiler has complex<T>
 #
 try_compile(HAVE_COMPLEX ${CMAKE_BINARY_DIR}
