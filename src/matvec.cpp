@@ -44,10 +44,6 @@
 #include "matrix.h"
 #include "matvec.h"
 
-#if !HAVE_STRCHR
-# define strchr  index
-# define strrchr rindex
-#endif
 
 namespace qucs {
 
