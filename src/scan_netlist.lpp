@@ -52,10 +52,6 @@
 #include "check_netlist.h"
 #include "parse_netlist.hpp"
 
-#if !HAVE_STRCHR
-# define strchr  index
-# define strrchr rindex
-#endif
 
 using namespace qucs;
 

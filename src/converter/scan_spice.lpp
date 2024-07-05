@@ -50,10 +50,6 @@
 #include "check_spice.h"
 #include "parse_spice.hpp"
 
-#if !HAVE_STRCHR
-# define strchr  index
-# define strrchr rindex
-#endif
 
 /* fixing invalid identifiers */
 static void spice_fix_identifier (char * ident) {

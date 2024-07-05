@@ -139,13 +139,11 @@ set(REQUIRED_FUNCTIONS
     trunc
     acosh
     asinh # for real.cpp
-    strdup
-    strerror
-    strchr) # for compat.h, matvec.cpp, scan_*.cpp
+    )
 
 foreach(func ${REQUIRED_FUNCTIONS})
   string(TOUPPER ${func} FNAME)
-  check_function_exists(${func} HAVE_${FNAME})
+  check_cxx_symbol_exists(${func} cmath HAVE_${FNAME})
   # message(STATUS "${func}  --> ${HAVE_${FNAME}}")
 endforeach()
 
@@ -160,21 +158,6 @@ endforeach()
 # AC_CHECK_CXX_COMPLEX_ATAN2         !failed, need libstdc?
 # AC_CHECK_CXX_COMPLEX_FMOD          !failed: AC_CHECK_CXX_COMPLEX_POLAR
 # AC_CHECK_CXX_COMPLEX_POLAR_COMPLEX !failed
-
-#
-# Namespace
-#
-# Check whether the compiler implements namespaces
-#
-try_compile(
-  HAVE_NAMESPACES ${CMAKE_BINARY_DIR}
-  ${qucs-core_SOURCE_DIR}/cmake/namespaces.cpp OUTPUT_VARIABLE TRY_OUT)
-if(NOT HAVE_NAMESPACES)
-  message(
-    SEND_ERROR
-      "${PROJECT_NAME} requires an c++ compiler with namespace HAVE_NAMESPACES failed"
-  ) # ${TRY_OUT}")
-endif()
 
 #
 # Check whether the compiler has complex<T>

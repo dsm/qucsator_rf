@@ -50,10 +50,6 @@
 #include "check_zvr.h"
 #include "parse_zvr.hpp"
 
-#if !HAVE_STRCHR
-# define strchr  index
-# define strrchr rindex
-#endif
 
 using namespace qucs;
 
