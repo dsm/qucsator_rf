@@ -139,13 +139,11 @@ set(REQUIRED_FUNCTIONS
     trunc
     acosh
     asinh # for real.cpp
-    strdup
-    strerror
-    strchr) # for compat.h, matvec.cpp, scan_*.cpp
+    )
 
 foreach(func ${REQUIRED_FUNCTIONS})
   string(TOUPPER ${func} FNAME)
-  check_function_exists(${func} HAVE_${FNAME})
+  check_cxx_symbol_exists(${func} cmath HAVE_${FNAME})
   # message(STATUS "${func}  --> ${HAVE_${FNAME}}")
 endforeach()
 

@@ -31,6 +31,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(qucs-core CXX)
 
+include(CheckSymbolExists)
+include(CheckCXXSymbolExists)
+
 # ignore the project() managed VERSION (new in CMake 3.0)
 if(POLICY CMP0048)
   cmake_policy(SET CMP0048 OLD)
