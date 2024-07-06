@@ -60,6 +60,7 @@ struct actionset_t {
 
 /* data variable specification */
 char * data_var = NULL;
+char * lib_name = NULL;
 
 /* required forward declarations */
 int spice2qucs (struct actionset_t *, char *, char *);
@@ -141,6 +142,7 @@ int main (int argc, char ** argv) {
 	"  -a, --noaction  do not include netlist actions in the output\n"
 	"  -g  GNDNODE     replace ground node\n"
 	"  -d  DATANAME    data variable specification\n"
+	"  -ln LIBNAME     define library name; \"Generic\" is default\n"
 	"  -c, --correct   enable node correction\n"
   "\nFORMAT: The input - output format pair should be one of the following:\n"
   "  inputformat - outputformat\n"
@@ -178,6 +180,9 @@ int main (int argc, char ** argv) {
     }
     else if (!strcmp (argv[i], "-d")) {
       if (argv[++i]) data_var = argv[i];
+    }
+    else if (!strcmp (argv[i], "-ln")) {
+      if (argv[++i]) lib_name = argv[i];
     }
     else if (!strcmp (argv[i], "-c") || !strcmp (argv[i], "--correct")) {
       vcd_correct = 1;
@@ -237,7 +242,7 @@ int spice2qucs (struct actionset_t * action, char * infile, char * outfile) {
   if (!strcmp (action->out, "qucs"))
     qucs_producer ();
   else /* "qucslib" */
-    qucslib_producer ();
+    qucslib_producer (lib_name);
   fclose (qucs_out);
   spice_destroy ();
   return 0;
