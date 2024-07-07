@@ -10,16 +10,16 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this package; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
- * Boston, MA 02110-1301, USA.  
+ * Boston, MA 02110-1301, USA.
  *
  * $Id$
  *
@@ -686,7 +686,7 @@ VOLTAGE_Output:
     $$ = NULL;
     $$ = spice_append_str_values ($$, $1, HINT_NAME | HINT_MSTART);
     $$ = spice_append_str_values ($$, $2, HINT_NODE);
-    $$ = spice_append_str_values ($$, $3, HINT_NODE | HINT_MSTOP);    
+    $$ = spice_append_str_values ($$, $3, HINT_NODE | HINT_MSTOP);
   }
 ;
 
@@ -766,6 +766,10 @@ MODEL_List: /* nothing */ { $$ = NULL; }
     $$ = netlist_append_values ($$, $2);
   }
   | Identifier Value MODEL_List {
+    $$ = spice_create_par_value ($1, $2);
+    $$ = netlist_append_values ($$, $3);
+  }
+  | Identifier Identifier MODEL_List {
     $$ = spice_create_par_value ($1, $2);
     $$ = netlist_append_values ($$, $3);
   }
