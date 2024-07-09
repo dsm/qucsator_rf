@@ -1802,19 +1802,21 @@ static int checker_validate_properties (struct definition_t * root,
     {
         /* check whether properties are either required or optional */
         int type = checker_is_property (available, pair->key);
+        bool invalid_prop = false;
         if (type == PROP_NONE)
         {
             if (strcmp (def->type, "Def"))
             {
-                logprint (LOG_ERROR,
-                          "line %d: checker error, extraneous property `%s' is "
+                logprint (LOG_STATUS,
+                          "line %d: checker warning, extraneous property `%s' is "
                           "invalid in `%s:%s'\n", def->line,
                           pair->key, def->type, def->instance);
-                errors++;
+               // errors++;
+               invalid_prop = true;
             }
         }
-        // do not check zero-length lists
-        if (pair->value != NULL)
+        // do not check zero-length lists and non-exisiting properties
+        if (pair->value != NULL && !invalid_prop)
         {
             /* check and evaluate the unit scale in a property */
             if (!checker_evaluate_scale (pair->value))
