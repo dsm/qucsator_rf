@@ -34,11 +34,6 @@ project(qucs-core CXX)
 include(CheckSymbolExists)
 include(CheckCXXSymbolExists)
 
-# ignore the project() managed VERSION (new in CMake 3.0)
-if(POLICY CMP0048)
-  cmake_policy(SET CMP0048 OLD)
-endif(POLICY CMP0048)
-
 
 # otherwise qucsator cannot generate qucsdefs.h
 add_definitions(-DDEBUG)
@@ -248,7 +243,7 @@ ENDIF()
 # CMake adds --enable-all-exports on Cygwin (since Cygwin is supposed to be
 # UNIX-like), but we need to add it explicitly for a native windows build with
 # the MinGW tools.
-if(WIN32)
+if(WIN32 AND NOT MSVC)
   set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS
       "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
   set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS
@@ -256,54 +251,32 @@ if(WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
 endif()
 
-# ~~~
-# indiscriminate copy/paste from:
-# http://stackoverflow.com/questions/10984442/how-to-detect-c11-support-of-a-compiler-with-cmake/20165220#20165220
 
-# Initialize CXXFLAGS.
-
-# \todo fix headers and use standard C++ methods * strdup is not C or C++
-# standard, it is POSIX adding -fpermissive let it compile with a ton of
-# warnings * problem with non-starndart _stricmp using -stdr=c++0x set g++ into
-# strict ANSY, relax that with -U__STRICT_ANSI__. Could use -std=gnu++0x
-# ~~~
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
-if (WIN32)
-    if(MSVC)
-      add_compile_options(/Zc:__cplusplus /permissive- /MP /Zc:preprocessor)
-    else(MSVC)
-      set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11 -fpermissive -U__STRICT_ANSI__")
-    endif(MSVC)
-else(WIN32)
-    # additional warnings
-    add_compile_options(-Wall -Wextra)
-endif(WIN32)
-
-
-
-# indiscriminate copy/paste from:
-# http://stackoverflow.com/questions/10984442/how-to-detect-c11-support-of-a-
-# compiler-with-cmake/20165220#20165220
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
-set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
-
-# Compiler-specific C++11 activation.
-if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
-  execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion
-                  OUTPUT_VARIABLE GCC_VERSION)
-  if(NOT (GCC_VERSION VERSION_GREATER 4.7 OR GCC_VERSION VERSION_EQUAL 4.7))
-    message(FATAL_ERROR "${PROJECT_NAME} requires g++ 4.7 or greater.")
-  endif()
-elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-else()
-  message(FATAL_ERROR "Your C++ compiler does not support C++11.")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        add_compile_definitions(_CRT_SECURE_NO_WARNINGS _SCL_SECURE_NO_WARNINGS)
+        add_compile_options(/permissive- /Zc:__cplusplus /Zc:preprocessor /MP /Od /vmg)
+        add_compile_options(/wd4244 /wd4267 /wd4312)
+    else()
+        add_compile_options(-Wall -Wextra -O0 -g)
+        if (CMAKE_CXX_COMPILER_ID MATCHES "^AppleClang$|^Clang$")
+            add_compile_options(-Wno-ignored-attributes)
+        endif()
+    endif()
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        add_compile_definitions(_CRT_SECURE_NO_WARNINGS _SCL_SECURE_NO_WARNINGS)
+        string(REGEX REPLACE "/W3" "/w" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+        add_compile_options(/permissive- /Zc:__cplusplus /Zc:preprocessor /MP /vmg)
+    else()
+        add_compile_options(-w)
+    endif()
 endif()
+
 
 #
 # Set position independent code PIC
