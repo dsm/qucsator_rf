@@ -82,16 +82,7 @@ nr_complex_t tan (const nr_complex_t z) {
     \return arc cosine of z
 */
 nr_complex_t acos (const nr_complex_t z) {
-#ifdef HAVE_CXX_COMPLEX_ACOS
     return std::acos (z);
-#else
-    // missing on OSX 10.6
-    nr_double_t r = real (z);
-    nr_double_t i = imag (z);
-    nr_complex_t y = sqrt (z * z - 1.0);
-    if (r * i < 0.0) y = -y;
-    return nr_complex_t (0, -1.0) * log (z + y);
-#endif
 }
 
 
@@ -100,14 +91,7 @@ nr_complex_t acos (const nr_complex_t z) {
     \return arc sine of z
 */
 nr_complex_t asin (const nr_complex_t z) {
-#ifdef HAVE_CXX_COMPLEX_ASIN
     return std::asin (z);
-#else
-    // missing on OSX 10.6
-    nr_double_t r = real (z);
-    nr_double_t i = imag (z);
-    return nr_complex_t (0.0, -1.0) * log (nr_complex_t (-i, r) + sqrt (1.0 - z * z));
-#endif
 }
 
 /*! \brief Compute complex arc tangent
@@ -115,12 +99,7 @@ nr_complex_t asin (const nr_complex_t z) {
     \return arc tangent of z
 */
 nr_complex_t atan (const nr_complex_t z) {
-#ifdef HAVE_CXX_COMPLEX_ATAN
     return std::atan (z);
-#else
-    // missing on OSX 10.6
-    return nr_complex_t (0.0, -0.5) * log (nr_complex_t (0, 2) / (z + nr_complex_t (0, 1)) - 1.0);
-#endif
 }
 
 
@@ -160,11 +139,7 @@ nr_complex_t tanh (const nr_complex_t z) {
     \return arc hyperbolic cosine of z
 */
 nr_complex_t acosh (const nr_complex_t z) {
-#ifdef HAVE_CXX_COMPLEX_ACOSH
     return std::acosh (z);
-#else
-    return log (z + sqrt (z * z - 1.0));
-#endif
 }
 
 
@@ -173,11 +148,7 @@ nr_complex_t acosh (const nr_complex_t z) {
     \return arc hyperbolic sine of z
 */
 nr_complex_t asinh (const nr_complex_t z) {
-#ifdef HAVE_CXX_COMPLEX_ACOSH
     return std::asinh (z);
-#else
-    return log (z + sqrt (z * z + 1.0));
-#endif
 }
 
 
@@ -186,11 +157,7 @@ nr_complex_t asinh (const nr_complex_t z) {
     \return arc hyperbolic tangent of z
 */
 nr_complex_t atanh (const nr_complex_t z) {
-#ifdef HAVE_CXX_COMPLEX_ATANH
     return std::atanh (z);
-#else
-    return 0.5 * log ( 2.0 / (1.0 - z) - 1.0);
-#endif
 }
 
 
@@ -392,12 +359,8 @@ nr_complex_t atan2 (const nr_complex_t y, const nr_complex_t x)
 */
 nr_complex_t log2 (const nr_complex_t z)
 {
-#ifndef HAVE_CXX_COMPLEX_LOG2
     nr_double_t phi = std::arg (z);
     return nr_complex_t (std::log (std::abs (z)) * log2e, phi * log2e);
-#else
-    return std::log2 (z);
-#endif
 }
 
 /*!\brief complex signum function
@@ -550,11 +513,7 @@ nr_complex_t limexp (const nr_complex_t z)
 */
 nr_complex_t polar (const nr_double_t mag, const nr_double_t ang )
 {
-#ifdef HAVE_CXX_COMPLEX_POLAR
     return std::polar (mag, ang);
-#else
-    return nr_complex_t (mag * cos (ang), mag * sin (ang));
-#endif
 }
 
 /*!\brief Extension of polar construction to complex
@@ -565,11 +524,7 @@ nr_complex_t polar (const nr_double_t mag, const nr_double_t ang )
 */
 nr_complex_t polar (const nr_complex_t a, const nr_complex_t p)
 {
-#ifdef HAVE_CXX_COMPLEX_POLAR_COMPLEX
-    return std::polar (a, p);
-#else
     return a * exp(nr_complex_t(0.0, 1.0) * p);
-#endif
 }
 
 
