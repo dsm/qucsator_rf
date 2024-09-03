@@ -130,14 +130,7 @@ nr_double_t  tanh (const nr_double_t arg) {
     \return arc hyperbolic cosine of z
 */
 nr_double_t  acosh (const nr_double_t arg) {
-#ifdef HAVE_STD_ACOSH
-  // c++11
   return std::acosh (arg);
-#elif HAVE_ACOSH
-  return ::acosh (arg);
-#else
-  return log (arg + sqrt (arg * arg - 1.0));
-#endif
 }
 
 /*! \brief Compute arc hyperbolic sine
@@ -146,14 +139,7 @@ nr_double_t  acosh (const nr_double_t arg) {
 */
 nr_double_t asinh (const nr_double_t arg)
 {
-#ifdef HAVE_STD_ASINH
-  // c++11
   return std::asinh (arg);
-#elif HAVE_ASINH
-  return ::asinh (arg);
-#else
-  return log (arg + sqrt (arg * arg + 1.0));
-#endif
 }
 
 /*! \brief Compute arc hyperbolic tangent
@@ -162,14 +148,7 @@ nr_double_t asinh (const nr_double_t arg)
 */
 nr_double_t atanh (const nr_double_t arg)
 {
-#ifdef HAVE_STD_ATANH
-  // c++11
   return std::atanh (arg);
-#elif HAVE_ATANH
-  return ::atanh (arg);
-#else
-  return 0.5 * log ( 2.0 / (1.0 - arg) - 1.0);
-#endif
 }
 
 
@@ -211,22 +190,7 @@ nr_double_t sqrt (const nr_double_t d) {
    \return Euclidean distance from (0,0) to (a,b): \f$\sqrt{a^2+b^2}\f$
 */
 nr_double_t xhypot (const nr_double_t a, const nr_double_t b) {
-#ifdef HAVE_STD_HYPOT
-  return std::hypot(a,b) // c++11
-#else
-  nr_double_t c = fabs (a);
-  nr_double_t d = fabs (b);
-  if (c > d) {
-    nr_double_t e = d / c;
-    return c * sqrt (1 + e * e);
-  }
-  else if (d == 0)
-    return 0;
-  else {
-    nr_double_t e = c / d;
-    return d * sqrt (1 + e * e);
-  }
-#endif
+  return std::hypot(a,b); // c++11
 }
 
 //
@@ -234,11 +198,7 @@ nr_double_t xhypot (const nr_double_t a, const nr_double_t b) {
 //
 
 nr_double_t erf( nr_double_t arg) {
-#ifdef HAVE_STD_ERF
   return std::erf (arg); // c++11
-#elif HAVE_ERF
-  return ::erf (arg);
-#endif
 }
 
 
@@ -253,31 +213,13 @@ nr_double_t floor( nr_double_t arg) {
   return std::floor(arg);
 }
 
-nr_double_t fmod( nr_double_t arg) {
-#ifdef HAVE_STD_TRUNC
-  return std::fmod(arg);
-#else
-  return fmod(arg);
-#endif
-}
 
 nr_double_t trunc( nr_double_t arg) {
-#ifdef HAVE_STD_TRUNC
   return std::trunc(arg);
-#elif HAVE_TRUNC
-  return ::trunc (arg);
-#else
-  return arg > 0 ? floor (arg) : floor (arg + 1);
-#endif
 }
+
 nr_double_t round( nr_double_t arg) {
-#ifdef HAVE_STD_ROUND
   return std::round(arg);
-#elif HAVE_ROUND
-  return ::round (arg);
-#else
-  return (arg > 0) ? floor (arg + 0.5) : ceil (arg - 0.5);
-#endif
 }
 
 
@@ -514,7 +456,7 @@ nr_double_t conj (const nr_double_t r) {
  * \return input in degree (x)*180/pi
  */
 nr_double_t rad2deg (const nr_double_t x) {
-  return (180.0 * (x) / pi); 
+  return (180.0 * (x) / pi);
 }
 
 /*!
@@ -523,7 +465,7 @@ nr_double_t rad2deg (const nr_double_t x) {
  * \return input in radian (x)*pi/180
  */
 nr_double_t deg2rad (const nr_double_t x) {
-  return (pi * (x) / 180.0); 
+  return (pi * (x) / 180.0);
 }
 
 
