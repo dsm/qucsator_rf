@@ -34,6 +34,7 @@ class mscorner : public qucs::circuit
   void initSP (void);
   void initDC (void);
   void initAC (void);
+  void initTR (void);
   void calcAC (nr_double_t);
 
  private:

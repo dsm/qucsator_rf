@@ -105,6 +105,11 @@ void mscorner::initAC (void) {
   initCheck ();
 }
 
+void mscorner::initTR(void)
+{
+  initDC();
+}
+
 void mscorner::calcAC (nr_double_t frequency) {
   setMatrixY (ztoy (calcMatrixZ (frequency)));
 }
