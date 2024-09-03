@@ -386,6 +386,11 @@ void bondwire::initDC (void) {
   }
 }
 
+void bondwire::initTR (void)
+{
+  initDC();
+}
+
 /*! Initialize AC simulation. */
 void bondwire::initAC (void) {
   getProperties ();
@@ -398,6 +403,20 @@ void bondwire::initAC (void) {
  */
 void bondwire::calcAC (const nr_double_t frequency) {
   setMatrixY (calcMatrixY (frequency));
+}
+
+void bondwire::calcDC(void)
+{
+  if (rho != 0.0) {
+    nr_double_t g = 1.0 / resistance (0);
+    setY (NODE_1, NODE_1, +g); setY (NODE_2, NODE_2, +g);
+    setY (NODE_1, NODE_2, -g); setY (NODE_2, NODE_1, -g);
+  }
+}
+
+void bondwire::calcTR(nr_double_t t)
+{
+  calcDC();
 }
 
 void bondwire::calcNoiseSP (nr_double_t) {
