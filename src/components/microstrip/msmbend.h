@@ -33,6 +33,7 @@ class msmbend : public qucs::circuit
   void calcSP (nr_double_t);
   void initDC (void);
   void initAC (void);
+  void initTR (void);
   void calcAC (nr_double_t);
   qucs::matrix calcMatrixZ (nr_double_t);
 };
