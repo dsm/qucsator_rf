@@ -60,7 +60,7 @@ void mscoupled::calcPropagation (nr_double_t frequency) {
 
   // analyse dispersion of Zl and Er
   nr_double_t ZleFreq, ErEffeFreq, ZloFreq, ErEffoFreq;
-  analyseDispersion (W, h, s, er, Zle, Zlo, ErEffe, ErEffo, frequency, DModel,
+  analyseDispersion (W, h, s, t, er, Zle, Zlo, ErEffe, ErEffo, frequency, DModel,
 		     ZleFreq, ZloFreq, ErEffeFreq, ErEffoFreq);
 
   // analyse losses of line
@@ -267,7 +267,7 @@ void mscoupled::analysQuasiStatic (nr_double_t W, nr_double_t h, nr_double_t s,
    constants and characteristic impedances for the even and odd mode
    of parallel coupled microstrip lines. */
 void mscoupled::analyseDispersion (nr_double_t W, nr_double_t h, nr_double_t s,
-				   nr_double_t er, nr_double_t Zle,
+				   nr_double_t t, nr_double_t er, nr_double_t Zle,
 				   nr_double_t Zlo, nr_double_t ErEffe,
 				   nr_double_t ErEffo, nr_double_t frequency,
 				   const char * const DModel, nr_double_t& ZleFreq,
@@ -284,6 +284,24 @@ void mscoupled::analyseDispersion (nr_double_t W, nr_double_t h, nr_double_t s,
   // normalized width and gap
   nr_double_t u = W / h;
   nr_double_t g = s / h;
+  nr_double_t ue, uo;
+  nr_double_t B, dW, dt;
+
+  // compute u_odd, u_even
+  if (t > 0.0) {
+    if (u < 0.1592) {
+      B = 2 * pi * W;
+    } else {
+      B = h;
+    }
+    dW = t * (1.0 + qucs::log(2 * B / t)) / pi;
+    dt = t / (er * g);
+    ue = (W + dW * (1.0 - 0.5 * qucs::exp( -0.69 * dW / dt ))) / h;
+    uo = ue + dt / h;
+  } else {
+    ue = u;
+    uo = u;
+  }
 
   // GETSINGER
   if (!strcmp (DModel, "Getsinger")) {
@@ -302,10 +320,10 @@ void mscoupled::analyseDispersion (nr_double_t W, nr_double_t h, nr_double_t s,
     nr_double_t fn = frequency * h * 1e-6;
 
     // even relative dielectric constant dispersion
-    p1 = 0.27488 * (0.6315 + 0.525 / qucs::pow (1 + 0.0157 * fn, 20.)) * u -
-      0.065683 * qucs::exp (-8.7513 * u);
+    p1 = 0.27488 * (0.6315 + 0.525 / qucs::pow (1 + 0.0157 * fn, 20.)) * ue -
+      0.065683 * qucs::exp (-8.7513 * ue);
     p2 = 0.33622 * (1 - qucs::exp (-0.03442 * er));
-    p3 = 0.0363 * qucs::exp (-4.6 * u) * (1 - qucs::exp (- qucs::pow (fn / 38.7, 4.97)));
+    p3 = 0.0363 * qucs::exp (-4.6 * ue) * (1 - qucs::exp (- qucs::pow (fn / 38.7, 4.97)));
     p4 = 1 + 2.751 * (1 - qucs::exp (- qucs::pow (er / 15.916, 8.)));
     p5 = 0.334 * qucs::exp (-3.3 * cubic (er / 15)) + 0.746;
     p6 = p5 * qucs::exp (- qucs::pow (fn / 18, 0.368));
@@ -316,13 +334,16 @@ void mscoupled::analyseDispersion (nr_double_t W, nr_double_t h, nr_double_t s,
 
     // odd relative dielectric constant dispersion
     nr_double_t p8, p9, p10, p11, p12, p13, p14, p15, Fo;
+    p1 = 0.27488 * (0.6315 + 0.525 / qucs::pow (1 + 0.0157 * fn, 20.)) * uo -
+      0.065683 * qucs::exp (-8.7513 * uo);
+    p3 = 0.0363 * qucs::exp (-4.6 * uo) * (1 - qucs::exp (- qucs::pow (fn / 38.7, 4.97)));
     p8 = 0.7168 * (1 + 1.076 / (1 + 0.0576 * (er - 1)));
     p9 = p8 - 0.7913 * (1 - qucs::exp (- qucs::pow (fn / 20, 1.424))) *
       qucs::atan (2.481 * qucs::pow (er / 8, 0.946));
     p10 = 0.242 * qucs::pow (er - 1, 0.55);
     p11 = 0.6366 * (qucs::exp (-0.3401 * fn) - 1) *
-      qucs::atan (1.263 * qucs::pow (u / 3, 1.629));
-    p12 = p9 + (1 - p9) / (1 + 1.183 * qucs::pow (u, 1.376));
+      qucs::atan (1.263 * qucs::pow (uo / 3, 1.629));
+    p12 = p9 + (1 - p9) / (1 + 1.183 * qucs::pow (uo, 1.376));
     p13 = 1.695 * p10 / (0.414 + 1.605 * p10);
     p14 = 0.8928 + 0.1072 * (1 - qucs::exp (-0.42 * qucs::pow (fn / 20, 3.215)));
     p15 = fabs (1 - 0.8928 * (1 + p11) *
