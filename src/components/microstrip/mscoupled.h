@@ -43,7 +43,7 @@ class mscoupled : public qucs::circuit
 				 nr_double_t&, nr_double_t&, nr_double_t&,
 				 nr_double_t&);
   static void analyseDispersion (nr_double_t, nr_double_t, nr_double_t,
-				 nr_double_t, nr_double_t, nr_double_t,
+				 nr_double_t, nr_double_t, nr_double_t, nr_double_t,
 				 nr_double_t, nr_double_t, nr_double_t, const char * const,
 				 nr_double_t&, nr_double_t&, nr_double_t&,
 				 nr_double_t&);
