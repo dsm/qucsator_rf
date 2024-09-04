@@ -99,6 +99,11 @@ void msmbend::initAC (void) {
   allocMatrixMNA ();
 }
 
+void msmbend::initTR (void)
+{
+  initDC();
+}
+
 void msmbend::calcAC (nr_double_t frequency) {
   setMatrixY (ztoy (calcMatrixZ (frequency)));
 }
