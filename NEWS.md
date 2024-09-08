@@ -1,3 +1,9 @@
+# QucsatorRF v1.0.2
+
+* Added simplified TRAN models for mscorner, msmbend, and bondwire #19
+* Fixed equations in mscouple #20
+* Fixed equations in rectline #21
+
 # QucsatorRF v1.0.1
 
 * Show warning instead of error on wrong property name and ignore this property #14
