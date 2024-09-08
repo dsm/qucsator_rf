@@ -192,9 +192,9 @@ void rectline::calcPropagation (nr_double_t frequency) {
   } else {
     /* according to [2] eq 3.207 */
     beta = 0;
-    alpha = -std::sqrt (- (sqr (k0) - sqr (kc)));
+    alpha = std::sqrt (- (sqr (k0) - sqr (kc)));
     // wave impedance
-    zl = (k0 * Z0 * std::sqrt(mur/er)) / nr_complex_t (0, -alpha) ;
+    zl = (k0 * Z0 * std::sqrt(mur/er)) / nr_complex_t (0, alpha) ;
   }
 }
 
