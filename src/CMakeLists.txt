@@ -221,9 +221,8 @@ include_directories(
 add_custom_command(
   OUTPUT gperfappgen.h
   COMMAND
-    ${SED_TOOL} -e 's/evaluate::[a-zA-Z0-9_]*/NULL/g' <
-    ${CMAKE_CURRENT_SOURCE_DIR}/applications.h >
-    ${CMAKE_CURRENT_BINARY_DIR}/gperfappgen.h
+    ${PERL_TOOL} -pe 's/evaluate::[a-zA-Z0-9_]*/NULL/g' 
+    ${CMAKE_CURRENT_SOURCE_DIR}/applications.h > ${CMAKE_CURRENT_BINARY_DIR}/gperfappgen.h
   DEPENDS ${applications.h})
 
 #
@@ -258,7 +257,7 @@ add_custom_command(
   OUTPUT gperfapphash.cpp
   COMMAND ${GPERF_TOOL} -I -m 8 ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph >
           temp.gperf
-  COMMAND ${SED_TOOL} -e 's/{""},/{"",0},/g' < temp.gperf >
+  COMMAND ${PERL_TOOL} -pe 's/{""},/{"",0},/g' temp.gperf >
           ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.cpp
   DEPENDS gperfapphash.gph)
 

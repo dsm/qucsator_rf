@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       shell: bash
       run: |
-          brew install gperf dos2unix bison flex ninja
+          brew install gperf dos2unix bison flex ninja perl
           echo 'export PATH="$(brew --prefix bison)/bin:$PATH"' >> /Users/runner/.bashrc
           export LDFLAGS="-L$(brew --prefix bison)/lib"
           source ~/.bashrc
@@ -51,7 +51,7 @@ jobs:
     - name: Install dependencies
       shell: bash
       run: |
-          brew install gperf dos2unix bison flex ninja
+          brew install gperf dos2unix bison flex ninja perl
           echo 'export PATH="$(brew --prefix bison)/bin:$PATH"' >> /Users/runner/.bashrc
           export LDFLAGS="-L$(brew --prefix bison)/lib"
           source ~/.bashrc

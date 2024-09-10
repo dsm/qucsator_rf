@@ -26,7 +26,7 @@ jobs:
     - name: InstallDependencies
       run: |
           sudo apt-get update
-          sudo apt-get install -y dos2unix gperf flex bison 
+          sudo apt-get install -y dos2unix gperf flex bison  perl
           sudo apt-get install -y python3 python3-matplotlib python3-numpy 
           sudo pip3 install looseversion
     - name: Configure CMake

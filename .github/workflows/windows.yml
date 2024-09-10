@@ -47,6 +47,7 @@ jobs:
           make:p 
           python:p 
           gperf:p
+          perl:p
           
     - name: Build with cmake
       run: |

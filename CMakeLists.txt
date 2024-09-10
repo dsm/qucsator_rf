@@ -195,6 +195,16 @@ else()
 endif()
 
 #
+# Check for perl
+#
+find_program(PERL_TOOL NAMES perl)
+if(NOT PERL_TOOL)
+  message(FATAL_ERROR "Unable to find perl")
+else()
+  message(STATUS "Found perl: " ${PERL_TOOL})
+endif()
+
+#
 # Check for gperf
 #
 find_program(GPERF_TOOL NAMES gperf)
