@@ -238,14 +238,10 @@ ENDIF()
 #
 # Run gperfappgen, pipe to gperf input to gperfapphash.gph
 #
-IF(WIN32)
-    SET(gperfappgen_exe gperfappgen.exe)
-ELSE() # Unix
-    SET(gperfappgen_exe gperfappgen)
-ENDIF()
+
 add_custom_command(
   OUTPUT gperfapphash.gph
-  COMMAND ${gperfappgen_exe} > ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph && dos2unix ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph  
+  COMMAND ${gperfappgen} > ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph && dos2unix ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph  
   DEPENDS ${gperfappgen})
 
 #
