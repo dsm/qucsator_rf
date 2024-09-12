@@ -51,6 +51,6 @@ jobs:
     - name: Build with cmake
       run: |
         ls -la
-        cmake.exe -B build/ -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        cmake.exe -B build/ -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         cmake.exe --build build/ -j`nproc` --config ${{env.BUILD_TYPE}}
     
