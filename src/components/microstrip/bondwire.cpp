@@ -414,7 +414,7 @@ void bondwire::calcDC(void)
   }
 }
 
-void bondwire::calcTR()
+void bondwire::calcTR(nr_double_t t)
 {
   calcDC();
 }

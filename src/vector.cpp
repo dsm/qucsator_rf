@@ -323,12 +323,7 @@ vector xhypot (vector v1, vector v2) {
   vector res (len);
   for (j = i = n = 0; n < len; n++) {
     res (n) = xhypot (v1 (i), v2 (j));
-    if (++i >= len1) {
-      i = 0;
-    }
-    if (++j >= len2) {
-      j = 0;
-    }
+    if (++i >= len1) i = 0; if (++j >= len2) j = 0;
   }
   return res;
 }
@@ -454,12 +449,7 @@ vector pow (vector v1, vector v2) {
   vector res (len);
   for (j = i = n = 0; n < len; n++) {
     res (n) = pow (v1 (i), v2 (j));
-    if (++i >= len1) {
-      i = 0;
-    }
-    if (++j >= len2) {
-      j = 0;
-    }
+    if (++i >= len1) i = 0; if (++j >= len2) j = 0;
   }
   return res;
 }
@@ -913,8 +903,7 @@ vector operator%(vector v1, vector v2) {
   vector res (len);
   for (j = i = n = 0; n < len; n++) {
     res (n) = v1 (i) % v2 (j);
-    if (++i >= len1) i = 0;
-    if (++j >= len2) j = 0;
+    if (++i >= len1) i = 0;  if (++j >= len2) j = 0;
   }
   return res;
 }
@@ -1179,12 +1168,7 @@ vector polar (vector a, vector p) {
   vector res (len);
   for (j = i = n = 0; n < len; n++) {
     res (n) = qucs::polar (a (i), p (j));
-    if (++i >= len1) {
-      i = 0;
-    }
-    if (++j >= len2) {
-      j = 0;
-    }
+    if (++i >= len1) i = 0;  if (++j >= len2) j = 0;
   }
   return res;
 }
@@ -1215,12 +1199,7 @@ vector atan2 (vector y, vector x) {
   vector res (len);
   for (j = i = n = 0; n < len; n++) {
     res (n) = atan2 (y (i), x (j));
-    if (++i >= len1) {
-      i = 0;
-    }
-    if (++j >= len2) {
-      j = 0;
-    }
+    if (++i >= len1) i = 0; if (++j >= len2) j = 0;
   }
   return res;
 }
