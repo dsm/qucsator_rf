@@ -96,8 +96,6 @@ foreach(type ${ParserTypes})
       ${BISON_EXECUTABLE}
       --defines=parse_${type}.hpp
       --output=parse_${type}.cpp
-      -v
-      -Wprecedence
       ${bisonIn}
     DEPENDS ${bisonIn})
   # Create custom Flex

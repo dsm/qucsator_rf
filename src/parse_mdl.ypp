@@ -49,7 +49,7 @@ using namespace qucs;
 
 %}
 
-%define api.prefix {mdl_}
+%name-prefix "mdl_"
 
 %token LINK
 %token Identifier

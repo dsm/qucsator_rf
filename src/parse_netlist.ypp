@@ -46,7 +46,7 @@ using namespace qucs;
 
 %}
 
-%define api.prefix {netlist_}
+%name-prefix "netlist_"
 
 %token InvalidCharacter
 %token Identifier
@@ -62,6 +62,7 @@ using namespace qucs;
 %token Character
 %token STRING
 
+%right '='
 %right '?' ':'
 %left  Or
 %left  And
@@ -69,9 +70,9 @@ using namespace qucs;
 %left  Less Greater LessOrEqual GreaterOrEqual
 %left  '-' '+'
 %left  '*' '/' '%'
-%precedence  Not
-%precedence  NEG     /* unary negation */
-%precedence  POS     /* unary non-negation */
+%right Not
+%left  NEG     /* unary negation */
+%left  POS     /* unary non-negation */
 %right '^'
 
 %union {

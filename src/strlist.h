@@ -55,7 +55,6 @@ class strlist
   static strlist * join (strlist *, strlist *);
   void del (strlist *);
   char * toString (const char * concat = " ");
-  strlist& operator=(strlist rhs);
 
  private:
   struct strlist_t * root;
