@@ -161,7 +161,7 @@ int main (int argc, char ** argv) {
     module::registerDynamicModules (projPath, vamodules);
   }
 
-  else { //no argument, look into netlist
+  else if (infile != NULL) { //no argument, look into netlist
 
     std::string sLine = "";
     std::ifstream file;
