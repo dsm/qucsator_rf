@@ -1,3 +1,7 @@
+# QucsatorRF v1.0.3
+
+* Fixed reading the netlist from STDIN #24
+
 # QucsatorRF v1.0.2
 
 * Added simplified TRAN models for mscorner, msmbend, and bondwire #19
