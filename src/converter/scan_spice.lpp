@@ -39,7 +39,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#ifdef __MINGW32__
+#ifdef _WIN32
 #include <io.h>
 #endif
 

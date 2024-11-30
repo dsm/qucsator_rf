@@ -30,7 +30,7 @@
 #endif
 
 
-#if defined(_WIN32) & not defined(__MINGW32__)
+#if defined(_WIN32) && defined(_MSC_VER)
 #define strcasecmp stricmp
 #endif
 

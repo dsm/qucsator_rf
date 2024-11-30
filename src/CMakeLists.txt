@@ -212,6 +212,12 @@ include_directories(
   ${qucs-core_BINARY_DIR}/src/components # generated verilog/[].core.h
 )
 
+add_executable(repl_reg repl_reg.cpp)
+IF(WIN32)
+    SET(repl_reg_exe repl_reg.exe)
+ELSE() # Unix
+    SET(repl_reg_exe repl_reg)
+ENDIF()
 #
 # Replace 'evaluate::[whatever]' by NULL
 #
@@ -220,22 +226,16 @@ include_directories(
 #
 add_custom_command(
   OUTPUT gperfappgen.h
-  COMMAND
-    ${SED_TOOL} -e 's/evaluate::[a-zA-Z0-9_]*/NULL/g' <
-    ${CMAKE_CURRENT_SOURCE_DIR}/applications.h >
-    ${CMAKE_CURRENT_BINARY_DIR}/gperfappgen.h
-  DEPENDS ${applications.h})
+  COMMAND ${repl_reg_exe} ${CMAKE_CURRENT_SOURCE_DIR}/applications.h  ${CMAKE_CURRENT_BINARY_DIR}/gperfappgen.h 0
+  DEPENDS ${repl_reg_exe} ${applications.h} )
 
 #
 # Compile gperfappgen * used to generate gperf input file (used in qucsator)
 #
 set(gperf_SRC gperfappgen.cpp gperfappgen.h)
 
-IF(WIN32)
-    add_executable(gperfappgen.exe ${gperf_SRC})
-ELSE() # Unix
-    add_executable(gperfappgen ${gperf_SRC})
-ENDIF()
+add_executable(gperfappgen ${gperf_SRC})
+
 #
 # Run gperfappgen, pipe to gperf input to gperfapphash.gph
 #
@@ -244,10 +244,11 @@ IF(WIN32)
 ELSE() # Unix
     SET(gperfappgen_exe gperfappgen)
 ENDIF()
+
 add_custom_command(
   OUTPUT gperfapphash.gph
   COMMAND ${gperfappgen_exe} > ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph && dos2unix ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph  
-  DEPENDS ${gperfappgen})
+  DEPENDS ${gperfappgen_exe})
 
 #
 # Run gperf, create hash table. * -I, Include the necessary system include files
@@ -258,9 +259,8 @@ add_custom_command(
   OUTPUT gperfapphash.cpp
   COMMAND ${GPERF_TOOL} -I -m 8 ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph >
           temp.gperf
-  COMMAND ${SED_TOOL} -e 's/{""},/{"",0},/g' < temp.gperf >
-          ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.cpp
-  DEPENDS gperfapphash.gph)
+  COMMAND ${repl_reg_exe} temp.gperf ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.cpp 1
+  DEPENDS gperfapphash.gph ${repl_reg_exe})
 
 # target <- source (includea) equation.cpp: gperfapphash.cpp
 #

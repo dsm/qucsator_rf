@@ -49,7 +49,7 @@ struct csv_data {
 };
 
 /* Definition of line separator. */
-#ifdef __MINGW32__
+#ifdef _WIN32
 #define csv_crlf "\n"
 #else
 #define csv_crlf "\r\n"

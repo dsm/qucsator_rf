@@ -108,7 +108,7 @@ tvector<nr_type_t> operator + (tvector<nr_type_t> a, tvector<nr_type_t> b) {
 // Intrinsic vector addition.
 template <class nr_type_t>
 tvector<nr_type_t> tvector<nr_type_t>::operator += (tvector<nr_type_t> a) {
-  assert (a.getSize () == (int)data.size ());
+  assert (a.size () == (int)data.size ());
   std::vector<nr_type_t> * src = a.getData ();
   std::vector<nr_type_t> * dst = data;
   for (int i = 0; i < (int)data.size (); i++) (*dst)[i] += (*src)[i];
