@@ -49,6 +49,9 @@ jobs:
         
   build-windows:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
     needs: setup
     strategy:
       fail-fast: false
@@ -61,16 +64,14 @@ jobs:
         
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Install gperf using Chocolatey
-      shell: pwsh
+    - name: Install Tools
       run: |
-        choco install gperf winflexbison3 -y
+        choco install gperf winflexbison3 sed -y
         
     - name: '⚙️ Install CMake'
       uses: lukka/get-cmake@latest
     
     - name: Build with cmake
-      shell: pwsh
       run: |
         cmake.exe -B build/ -G "Ninja" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         cmake.exe --build build/ --parallel --config ${{env.BUILD_TYPE}}

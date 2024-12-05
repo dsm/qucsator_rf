@@ -212,12 +212,22 @@ include_directories(
   ${qucs-core_BINARY_DIR}/src/components # generated verilog/[].core.h
 )
 
-add_executable(repl_reg repl_reg.cpp)
-IF(WIN32)
-    SET(repl_reg_exe repl_reg.exe)
-ELSE() # Unix
-    SET(repl_reg_exe repl_reg)
-ENDIF()
+# Check for MSYS2 UCRT64 environment
+if(CMAKE_CXX_COMPILER MATCHES "ucrt64" OR "$ENV{MSYSTEM}" STREQUAL "UCRT64")
+    set(Found_MSYS2 1)
+else()
+    set(Found_MSYS2 0)
+endif()
+
+# Debug output for Found_MSYS2
+message(STATUS "Found_MSYS2: ${Found_MSYS2}")
+
+if(WIN32 AND NOT Found_MSYS2)
+  set(REPLACE_NULL_CMD pwsh -Command "& ${SED_TOOL} -e 's/evaluate::[a-zA-Z0-9_]*/NULL/g' ${CMAKE_CURRENT_SOURCE_DIR}/applications.h > ${CMAKE_CURRENT_BINARY_DIR}/gperfappgen.h")
+else()
+  set(REPLACE_NULL_CMD ${SED_TOOL} -e 's/evaluate::[a-zA-Z0-9_]*/NULL/g' ${CMAKE_CURRENT_SOURCE_DIR}/applications.h > ${CMAKE_CURRENT_BINARY_DIR}/gperfappgen.h)
+endif()
+
 #
 # Replace 'evaluate::[whatever]' by NULL
 #
@@ -226,8 +236,8 @@ ENDIF()
 #
 add_custom_command(
   OUTPUT gperfappgen.h
-  COMMAND ${repl_reg_exe} ${CMAKE_CURRENT_SOURCE_DIR}/applications.h  ${CMAKE_CURRENT_BINARY_DIR}/gperfappgen.h 0
-  DEPENDS ${repl_reg_exe} ${applications.h} )
+  COMMAND ${REPLACE_NULL_CMD}
+  DEPENDS ${applications.h})
 
 #
 # Compile gperfappgen * used to generate gperf input file (used in qucsator)
@@ -250,6 +260,13 @@ add_custom_command(
   COMMAND ${gperfappgen_exe} > ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph && dos2unix ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph  
   DEPENDS ${gperfappgen_exe})
 
+
+if(WIN32 AND NOT Found_MSYS2)
+  set(REPLACE_WITH_ZERO_CMD pwsh -Command "& ${SED_TOOL} -e 's/{""},/{"",0},/g' temp.gperf > ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.cpp")
+else()
+  set(REPLACE_WITH_ZERO_CMD ${SED_TOOL} -e 's/{""},/{"",0},/g' temp.gperf > ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.cpp)
+endif()
+
 #
 # Run gperf, create hash table. * -I, Include the necessary system include files
 # at the beginning of the code. * -m, Perform multiple iterations to minimize
@@ -257,10 +274,11 @@ add_custom_command(
 #
 add_custom_command(
   OUTPUT gperfapphash.cpp
-  COMMAND ${GPERF_TOOL} -I -m 8 ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph >
-          temp.gperf
-  COMMAND ${repl_reg_exe} temp.gperf ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.cpp 1
-  DEPENDS gperfapphash.gph ${repl_reg_exe})
+  COMMAND ${GPERF_TOOL} -I -m 8 ${CMAKE_CURRENT_BINARY_DIR}/gperfapphash.gph > temp.gperf
+  COMMAND ${REPLACE_WITH_ZERO_CMD}
+  DEPENDS gperfapphash.gph)
+
+
 
 # target <- source (includea) equation.cpp: gperfapphash.cpp
 #
