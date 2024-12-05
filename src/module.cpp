@@ -39,7 +39,7 @@
 #include "netdefs.h"
 #include "module.h"
 
-#ifdef __MINGW32__
+#ifdef _WIN32
  #include <windows.h>
 #else
  #include <dlfcn.h>
@@ -57,7 +57,7 @@ std::map< std::string, creator_t *, std::less<std::string> > factorycreate;
 // factorydef hold the loaded modules definitions
 std::map< std::string, defs_t *, std::less<std::string> > factorydef;
 
-#if __MINGW32__
+#if _WIN32
   std::list<HINSTANCE> dl_list; // list to hold handles for dynamic libs
   std::list<HINSTANCE>::iterator itr;
 #else
@@ -467,14 +467,14 @@ void module::registerDynamicModules (char *proj, std::list<std::string> modlist)
 #ifdef __linux__
   absPathLib = absPathLib + "/" + *it + ".so";
 #endif
-#ifdef __MINGW32__
+#ifdef _WIN32
   absPathLib = absPathLib + "\\" + *it + ".dll";
 #endif
 
     // which lib is going to be loaded
     fprintf( stdout, "try loading %s\n", absPathLib.c_str() );
 
-#if __MINGW32__
+#if _WIN32
     // Load the DLL
     HINSTANCE dlib = ::LoadLibrary(TEXT(absPathLib.c_str()));
     if (!dlib) {
@@ -551,7 +551,7 @@ void module::registerDynamicModules (char *proj, std::list<std::string> modlist)
 void module::closeDynamicLibs()
 {
   for(itr=dl_list.begin(); itr!=dl_list.end(); itr++){
-#if __MINGW32__
+#if _WIN32
     FreeLibrary(*itr);
 #else
     dlclose(*itr);

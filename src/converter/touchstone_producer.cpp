@@ -58,7 +58,7 @@ struct touchstone_data_t {
 touchstone_data;
 
 /* Definition of line separator. */
-#ifdef __MINGW32__
+#ifdef _WIN32
 #define touchstone_crlf "\n"
 #else
 #define touchstone_crlf "\r\n"

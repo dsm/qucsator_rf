@@ -185,16 +185,6 @@ else() # Linux, OSX
 endif()
 
 #
-# Check for sed
-#
-find_program(SED_TOOL NAMES sed)
-if(NOT SED_TOOL)
-  message(FATAL_ERROR "Unable to find sed")
-else()
-  message(STATUS "Found sed: " ${SED_TOOL})
-endif()
-
-#
 # Check for gperf
 #
 find_program(GPERF_TOOL NAMES gperf)

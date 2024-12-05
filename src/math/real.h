@@ -421,7 +421,8 @@ nr_double_t inline real (const nr_double_t r) {
    \param[in] r Real number
    \return Imaginary part of r
 */
-nr_double_t inline imag ([[maybe_unused]] const nr_double_t r) {
+nr_double_t inline imag (const nr_double_t r) {
+  (void) r;
   return 0.0;
 }
 
