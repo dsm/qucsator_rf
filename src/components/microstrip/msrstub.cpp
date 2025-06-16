@@ -274,7 +274,7 @@ nr_complex_t msrstub::calcZ (nr_double_t frequency) {
       Kn = -jn(1, k0n_root[i_loop]*r_oe) / yn(1, k0n_root[i_loop]*r_oe);
       A0n = qucs::sqrt(2/phi) / qucs::sqrt(qucs::pow(r_oe, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn*yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)), 2.0) - qucs::pow(r_ie, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) + Kn*yn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)), 2.0));
       B0n = Kn * A0n;
-      P0n = qucs::sqrt(w_ge) * (A0n * jn(0, k0n_root[i_loop]*r_ie) + B0n * yn(0, k0n_root[i_loop]*r_ie));
+      P0n = qucs::sqrt(w_ge) * (A0n * jn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) + B0n * yn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)));
 
       // calculation of capacitance Cd0n and dynamic permittivity (higher modes)
       Cd0n_eps_r = E0 * eps_r * phi / (2.0 * h) * (qucs::pow(r_o, 2.0) - qucs::pow(r_i, 2.0) * qucs::pow((jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn * yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0))) / (jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn * yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0))), 2.0));
@@ -285,7 +285,7 @@ nr_complex_t msrstub::calcZ (nr_double_t frequency) {
       Rs = qucs::sqrt(omega0n * MU0 / (2.0 * 1.0 / resist)); //TODO - what kind of resistivity? what with skin effect?
       K = 1.0 -
         (qucs::pow(r_ie, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) * yn(1, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) - jn(1,nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) * yn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)), 2.0)) /
-        (qucs::pow(r_oe, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_oe),0ç0) * yn(1, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) - jn(1, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) * yn(0,nr_complex_t(k0n_root[i_loop]*r_oe,0.0)), 2.0));
+        (qucs::pow(r_oe, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_oe),0,0) * yn(1, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) - jn(1, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) * yn(0,nr_complex_t(k0n_root[i_loop]*r_oe,0.0)), 2.0));
       Itheta = 0;
       for(int i_theta = 1; i_theta <= 180; ++i_theta) // integrate numerically (each step 1deg)
       {
