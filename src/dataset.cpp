@@ -31,6 +31,7 @@
 #include <string.h>
 #include <errno.h>
 #include <assert.h>
+#define _USE_MATH_DEFINES 
 #include <cmath>
 
 #include "logging.h"

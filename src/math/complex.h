@@ -27,6 +27,7 @@
 
 #include <complex>
 
+#define _USE_MATH_DEFINES 
 #include <cmath>
 #include "real.h"
 

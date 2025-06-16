@@ -26,6 +26,7 @@
 #ifndef __REAL_H__
 #define __REAL_H__
 
+#define _USE_MATH_DEFINES 
 #include <cmath>
 #include <cassert>
 

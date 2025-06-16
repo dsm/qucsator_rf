@@ -31,6 +31,7 @@
 
 #include <assert.h>
 #include <time.h>
+#define _USE_MATH_DEFINES 
 #include <cmath>
 #include <float.h>
 
