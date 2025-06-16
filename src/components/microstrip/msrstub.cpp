@@ -272,12 +272,12 @@ nr_complex_t msrstub::calcZ (nr_double_t frequency) {
     {
       // coefficients ...
       Kn = -jn(1, k0n_root[i_loop]*r_oe) / yn(1, k0n_root[i_loop]*r_oe);
-      A0n = qucs::sqrt(2/phi) / qucs::sqrt(qucs::pow(r_oe, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn*yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)), 2.0) - qucs::pow(r_ie, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) + Kn*yn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)), 2.0));
+      A0n = (qucs::sqrt(2/phi) / qucs::sqrt(qucs::pow(r_oe, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn*yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)), 2.0) - qucs::pow(r_ie, 2.0) * qucs::pow(jn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) + Kn*yn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)), 2.0))).real();
       B0n = Kn * A0n;
       P0n = qucs::sqrt(w_ge) * (A0n * jn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)) + B0n * yn(0, nr_complex_t(k0n_root[i_loop]*r_ie,0.0)));
 
       // calculation of capacitance Cd0n and dynamic permittivity (higher modes)
-      Cd0n_eps_r = E0 * eps_r * phi / (2.0 * h) * (qucs::pow(r_o, 2.0) - qucs::pow(r_i, 2.0) * qucs::pow((jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn * yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0))) / (jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn * yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0))), 2.0));
+      Cd0n_eps_r = (E0 * eps_r * phi / (2.0 * h) * (qucs::pow(r_o, 2.0) - qucs::pow(r_i, 2.0) * qucs::pow((jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn * yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0))) / (jn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0)) + Kn * yn(0, nr_complex_t(k0n_root[i_loop]*r_oe,0.0))), 2.0))).real();
       eps_d0n = (Cd0n_eps_r + Cdf_eps_r + Cds_eps_r) / (Cd0n_eps_r / eps_r + Cdf_eps0 + Cds_eps0);
 
       // quality factors calculations
